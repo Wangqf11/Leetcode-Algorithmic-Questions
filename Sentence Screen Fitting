@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int wordsTyping(vector<string>& sentence, int rows, int cols) {
+        int p = 0, t = 0;
+        int space, len = 0;
+        const int N = sentence.size();
+        
+        for (int i = 0; i < N; i++){
+            len += sentence[i].length() + 1;
+        }
+                    
+        if(cols >= len){
+            t = (cols / len) * rows;
+            cols %= len;
+        }
+        
+        if(cols == 0) return t;
+        
+        while(rows > 0){
+            space = cols;
+
+            while(space > 0){
+
+                if (sentence[p % N].length() > space){
+                    rows--;
+                    break;
+                }
+                else if(sentence[p % N].length() >= space - 1){
+                    rows--;
+                    p++;
+                    break;
+                }
+                else {
+                    space -= sentence[p % N].length() + 1;
+                    p++;
+                }
+            }
+        }
+        return t + p / N;
+    }
+};
